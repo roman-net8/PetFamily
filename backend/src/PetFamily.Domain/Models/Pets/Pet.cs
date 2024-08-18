@@ -5,6 +5,7 @@ namespace PetFamily.Domain.Models.Pets
     public class Pet
     {
         private readonly List<Requisite> _requisites = [];
+        private readonly List<PetPhoto> _petPhoto = [];
 
         public Guid Id { get; private set; }
         public string Name { get; private set; } = default!;
@@ -24,5 +25,7 @@ namespace PetFamily.Domain.Models.Pets
         public HelpStatus HelpStatus { get; private set; }
         public IReadOnlyList<Requisite> Requisites => _requisites;
         public void AddRequisite(Requisite requisite) => _requisites.Add(requisite);
+        public IReadOnlyList<PetPhoto> Photos => _petPhoto;
+        public void AddRequisite(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
     }
 }
