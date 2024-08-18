@@ -21,7 +21,7 @@ namespace PetFamily.Domain.Models.Pets
         public bool IsVaccinated { get; private set; }
         public DateOnly DateOfBirth { get; private set; }
         public DateTime CreatedDate { get; private set; }
-        public HelpStatus HelpStatuss { get; private set; }
+        public HelpStatus HelpStatus { get; private set; }
         public IReadOnlyList<Requisite> Requisites => _requisites;
         public void AddRequisite(Requisite requisite) => _requisites.Add(requisite);
     }
