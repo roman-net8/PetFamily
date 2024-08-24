@@ -18,28 +18,32 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                     id => id.Value,
                     value => VolunteerId.Create(value));
 
-        builder.Property(v => v.FirstName)
-             .IsRequired()
-             .HasMaxLength(Constants.VolunteerConst.MAX_FIRST_NAME_TEXT_LENGTH);
+        builder.OwnsOne(v => v.FullName, vb =>
+        {
+            vb.Property(f => f.FirstName)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_FIRST_NAME_TEXT_LENGTH);
 
-        builder.Property(v => v.LastName)
-            .IsRequired()
-            .HasMaxLength(Constants.VolunteerConst.MAX_LAST_NAME_TEXT_LENGTH);
+            vb.Property(f => f.LastName)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LAST_NAME_TEXT_LENGTH);
+        });
+
 
         builder.Property(v => v.Email)
             .IsRequired()
-            .HasMaxLength(Constants.VolunteerConst.MAX_EMAIL_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_EMAIL_TEXT_LENGTH);
 
         builder.Property(v => v.Description)
             .IsRequired()
-            .HasMaxLength(Constants.VolunteerConst.MAX_DESCRIPTION_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
 
         builder.Property(v => v.YearsOfExperience)
             .IsRequired();
 
         builder.Property(v => v.Phone)
             .IsRequired()
-            .HasMaxLength(Constants.VolunteerConst.MAX_PHONE_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PHONE_TEXT_LENGTH);
 
         builder.HasIndex(v => v.Phone)
              .IsUnique();
@@ -50,36 +54,32 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
         builder.OwnsOne(v => v.Details, vb =>
         {
-            vb.ToJson();
+            vb.ToJson("json_data");
 
             vb.OwnsMany(details => details.SocialNetworks, vsb =>
             {
-                vsb.Property(s => s.FirstName)
-                     .IsRequired()
-                     .HasMaxLength(Constants.SocialNetworkConst.MAX_FIRST_NAME_TEXT_LENGTH);
-
-                vsb.Property(s => s.LastName)
+                vsb.Property(s => s.UserName)
                        .IsRequired()
-                       .HasMaxLength(Constants.SocialNetworkConst.MAX_LAST_NAME_TEXT_LENGTH);
+                       .HasMaxLength(Constants.MAX_NAME_TEXT_LENGTH);
 
                 vsb.Property(s => s.Link)
                       .IsRequired()
-                      .HasMaxLength(Constants.SocialNetworkConst.MAX_LINK_TEXT_LENGTH);
+                      .HasMaxLength(Constants.MAX_LINK_TEXT_LENGTH);
 
                 vsb.Property(s => s.Description)
                       .IsRequired()
-                      .HasMaxLength(Constants.SocialNetworkConst.MAX_DESCRIPTION_TEXT_LENGTH);
+                      .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
             });
 
             vb.OwnsMany(details => details.Requisites, vrb =>
             {
                 vrb.Property(r => r.Title)
                      .IsRequired()
-                     .HasMaxLength(Constants.RequisiteConst.MAX_NAME_TEXT_LENGTH);
+                     .HasMaxLength(Constants.MAX_NAME_TEXT_LENGTH);
 
                 vrb.Property(r => r.Description)
                       .IsRequired()
-                      .HasMaxLength(Constants.RequisiteConst.MAX_DESCRIPTION_TEXT_LENGTH);
+                      .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
             });
 
         });

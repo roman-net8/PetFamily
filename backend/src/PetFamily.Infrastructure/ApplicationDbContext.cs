@@ -1,18 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PetFamily.Domain.Models.Pets;
-using PetFamily.Domain.Models.Volunteers;
 
 namespace PetFamily.Infrastructure;
 
 public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     private const string DATABASE = "Database";
-
-    public DbSet<Volunteer> Volunteers => Set<Volunteer>();
-    public DbSet<Pet> Pets => Set<Pet>();
-    public DbSet<PetPhoto> PetPhotos => Set<PetPhoto>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -10,8 +10,7 @@ public class Volunteer : Shared.Entity<VolunteerId>
     {
     }
 
-    public string FirstName { get; private set; } = default!;
-    public string LastName { get; private set; } = default!;
+    public PersonFullName FullName { get; private set; } = default!;
     public string Email { get; private set; } = default!;
     public string Description { get; private set; } = default!;
     public Decimal YearsOfExperience { get; private set; }

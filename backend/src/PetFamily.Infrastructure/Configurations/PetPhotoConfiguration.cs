@@ -16,7 +16,7 @@ public class PetPhotoConfiguration : IEntityTypeConfiguration<PetPhoto>
 
         builder.Property(p => p.StoragePath)
              .IsRequired()
-            .HasMaxLength(Constants.PetPhotoConst.MAX_PATH_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PATH_TEXT_LENGTH);
 
 
         builder.Property(p => p.IsMain)

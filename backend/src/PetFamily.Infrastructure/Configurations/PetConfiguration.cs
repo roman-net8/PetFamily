@@ -20,27 +20,27 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         builder.Property(p => p.Name)
              .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_NAME_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_NAME_TEXT_LENGTH);
 
         builder.Property(p => p.Type)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_TYPE_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PET_TYPE_TEXT_LENGTH);
 
         builder.Property(p => p.Description)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_DESCRIPTION_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
 
         builder.Property(p => p.Breed)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_BREED_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_BREED_TEXT_LENGTH);
 
         builder.Property(p => p.Color)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_COLOR_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PET_COLOR_TEXT_LENGTH);
 
         builder.Property(p => p.Health)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_HEALTH_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PET_HEALTH_TEXT_LENGTH);
 
         builder.Property(p => p.Weight)
           .IsRequired();
@@ -50,7 +50,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         builder.Property(p => p.OwnerPhone)
             .IsRequired()
-            .HasMaxLength(Constants.PetConst.MAX_OWNER_PHONE_TEXT_LENGTH);
+            .HasMaxLength(Constants.MAX_PHONE_TEXT_LENGTH);
 
         builder.Property(p => p.IsCastrated)
           .IsRequired();
@@ -68,7 +68,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
          .IsRequired();
 
         builder.OwnsMany(p => p.Requisites)
-            .ToJson();
+            .ToJson("json_data");
 
         builder.HasMany(p => p.Photos)
             .WithOne()
