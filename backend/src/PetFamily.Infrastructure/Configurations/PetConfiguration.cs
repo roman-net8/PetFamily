@@ -68,7 +68,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
          .IsRequired();
 
         builder.OwnsMany(p => p.Requisites)
-            .ToJson("json_data");
+            .ToJson("requisites_list");
 
         builder.HasMany(p => p.Photos)
             .WithOne()
