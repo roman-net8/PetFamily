@@ -1,27 +1,25 @@
-﻿using PetFamily.Domain.Models.CommonModels;
-using PetFamily.Domain.Models.Pets;
+﻿using PetFamily.Domain.Models.Pets;
+using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain.Models.Volunteers
+namespace PetFamily.Domain.Models.Volunteers;
+
+public class Volunteer : Shared.Entity<VolunteerId>
 {
-    public class Volunteer
+    //For EF Сore
+    private Volunteer(VolunteerId id) : base(id)
     {
-        private readonly List<Requisite> _requisites = [];
-        private readonly List<SocialNetwork> _socialMediaProfile = [];
-        private readonly List<Pet> _ownedPets = [];
-
-        public string FullName { get; private set; } = default!;
-        public string Email { get; private set; } = default!;
-        public string GeneralDescription { get; private set; } = default!;
-        public Decimal YearsOfExperience { get; private set; }
-        public int GetAmountPetsThatHaveFoundHome() => _ownedPets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
-        public int GetAmountPetsThatSearchHome() => _ownedPets.Count(p => p.HelpStatus == HelpStatus.NeeedHome);
-        public int GetAmountPetsOnTreatment() => _ownedPets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
-        public string Phone { get; private set; } = default!;
-        public IReadOnlyList<SocialNetwork> SocialMediaProfile => _socialMediaProfile;
-        public void AddRequisite(SocialNetwork socialNetwork) => _socialMediaProfile.Add(socialNetwork);
-        public IReadOnlyList<Requisite> Requisites => _requisites;
-        public void AddRequisite(Requisite requisite) => _requisites.Add(requisite);
-        public IReadOnlyList<Pet> OwnedPets => _ownedPets;
-        public void AddRequisite(Pet pet) => _ownedPets.Add(pet);
     }
+
+    public FullName FullName { get; private set; } = default!;
+    public string Email { get; private set; } = default!;
+    public string Description { get; private set; } = default!;
+    public Decimal YearsOfExperience { get; private set; }
+
+    public int GetAmountPetsThatHaveFoundHome() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
+    public int GetAmountPetsThatSearchHome() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.NeedHome);
+    public int GetAmountPetsOnTreatment() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
+    public string Phone { get; private set; } = default!;
+
+    public VolunteerDetails Details { get; private set; }
+    public List<Pet> OwnedPets { get; private set; } = new();
 }

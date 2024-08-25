@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetFamily.Application", "sr
 		{60D3C0EF-1A51-4F93-9527-E3BF12F73F4D} = {60D3C0EF-1A51-4F93-9527-E3BF12F73F4D}
 	EndProjectSection
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D3BC36C3-4261-4920-95D8-0EA22F6385CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5D492442-30A1-47B5-812D-DC814FE38298}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D492442-30A1-47B5-812D-DC814FE38298}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D492442-30A1-47B5-812D-DC814FE38298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3BC36C3-4261-4920-95D8-0EA22F6385CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3BC36C3-4261-4920-95D8-0EA22F6385CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3BC36C3-4261-4920-95D8-0EA22F6385CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3BC36C3-4261-4920-95D8-0EA22F6385CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

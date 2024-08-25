@@ -1,11 +1,10 @@
-﻿namespace PetFamily.Domain.Models.Pets
+﻿namespace PetFamily.Domain.Models.Pets;
+public class PetPhoto
 {
-    public class PetPhoto
-    {
-        public Guid Id { get; private set; }
+    public Guid Id { get; private set; }
 
-        public string StoragePath { get; private set; } = default!;
+    public string StoragePath { get; private set; } = default!;
 
-        public bool IsMain { get; private set; }
-    }
+    public bool IsMain { get; private set; }
 }
+
