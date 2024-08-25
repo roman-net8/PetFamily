@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetFamily.Domain.Models.Volunteers;
 
 namespace PetFamily.Infrastructure;
 
@@ -22,4 +23,6 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
+
+    public DbSet<Volunteer> Volunteers { get; set; } = null!;
 }

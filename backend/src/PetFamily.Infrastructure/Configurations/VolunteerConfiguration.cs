@@ -17,22 +17,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasConversion(
                     id => id.Value,
                     value => VolunteerId.Create(value));
-
-        /*      builder.OwnsOne(v => v.FullName, vb =>
-              {
-                  vb.Property(f => f.FirstName)
-                      .IsRequired()
-                      .HasMaxLength(Constants.MAX_FIRST_NAME_TEXT_LENGTH);
-
-                  vb.Property(f => f.MiddleName)
-                      .IsRequired()
-                      .HasMaxLength(Constants.MAX_LAST_NAME_TEXT_LENGTH);
-
-                  vb.Property(f => f.LastName)
-                      .IsRequired()
-                      .HasMaxLength(Constants.MAX_LAST_NAME_TEXT_LENGTH);
-              });
-      */
+         
         builder.ComplexProperty(v => v.FullName, vb =>
         {
             vb.Property(f => f.FirstName)

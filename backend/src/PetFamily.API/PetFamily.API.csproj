@@ -20,10 +20,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\PetFamily.Application\PetFamily.Application.csproj" />
 		<ProjectReference Include="..\PetFamily.Domain\PetFamily.Domain.csproj" />
 		<ProjectReference Include="..\PetFamily.Infrastructure\PetFamily.Infrastructure.csproj" />
