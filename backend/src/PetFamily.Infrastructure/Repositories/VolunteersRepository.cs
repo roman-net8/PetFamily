@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Domain.Models.Volunteers;
+using PetFamily.Domain.Shared;
 
 namespace PetFamily.Infrastructure.Repositories;
 
@@ -16,20 +17,20 @@ public class VolunteersRepository
     {
         await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return volunteer.Id; 
+        return volunteer.Id;
     }
-
-    public async Task<Volunteer> GetById(VolunteerId volunteerId)
+    public async Task<Result<Volunteer>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
     {
-        Volunteer? volunteer = await _dbContext.Volunteers 
-            .Include(x => x.OwnedPets) 
-            .FirstOrDefaultAsync(v => v.Id == volunteerId);
+        var volunteer = await _dbContext.Volunteers
+            .Include(x => x.OwnedPets)  
+            .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)
         {
-            throw new NullReferenceException(nameof(volunteer));
+            return Result<Volunteer>.Failure(Errors.General.NotFound(volunteerId.Value));
         }
 
-        return volunteer;
+        return Result<Volunteer>.Success(volunteer);
     }
+
 }

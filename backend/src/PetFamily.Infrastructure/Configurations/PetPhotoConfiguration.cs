@@ -22,7 +22,6 @@ public class PetPhotoConfiguration : IEntityTypeConfiguration<PetPhoto>
              .IsRequired()
             .HasMaxLength(Constants.MAX_PATH_TEXT_LENGTH);
 
-
         builder.Property(p => p.IsMain)
             .IsRequired();
     }

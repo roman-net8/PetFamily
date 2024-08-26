@@ -17,7 +17,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .HasConversion(
                     id => id.Value,
                     value => VolunteerId.Create(value));
-         
+
         builder.ComplexProperty(v => v.FullName, vb =>
         {
             vb.Property(f => f.FirstName)
@@ -32,7 +32,6 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LAST_NAME_TEXT_LENGTH);
         });
-
 
         builder.Property(v => v.Email)
             .IsRequired()
