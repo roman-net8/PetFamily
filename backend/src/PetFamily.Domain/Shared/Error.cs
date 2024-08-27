@@ -8,7 +8,7 @@ public record Error
     public string Message { get; }
     public ErrorType Type { get; }
 
-    public static readonly Error None = new(string.Empty, string.Empty, ErrorType.None);
+    public static readonly Error None = new(string.Empty, string.Empty, ErrorType.Null);
 
     private Error(string code, string message, ErrorType type)
     {
@@ -29,7 +29,7 @@ public record Error
     public static Error Conflict(string code, string message) =>
         new Error(code, message, ErrorType.Conflict);
 
-    public static Error Null(string errorCode, string errorMessage) => 
+    public static Error Null(string errorCode, string errorMessage) =>
         new Error(errorCode, errorMessage, ErrorType.Null);
 
     public string Serialize()
@@ -61,6 +61,5 @@ public enum ErrorType
     NotFound,
     Failure,
     Conflict,
-    Null,
-    None
+    Null
 }
