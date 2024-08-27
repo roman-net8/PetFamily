@@ -13,11 +13,14 @@ public class PetPhotoConfiguration : IEntityTypeConfiguration<PetPhoto>
         builder.ToTable("pet_photos");
 
         builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id)
+            .HasConversion(
+            id => id.Value,
+            value => PetPhotoId.Create(value));
 
         builder.Property(p => p.StoragePath)
              .IsRequired()
             .HasMaxLength(Constants.MAX_PATH_TEXT_LENGTH);
-
 
         builder.Property(p => p.IsMain)
             .IsRequired();
