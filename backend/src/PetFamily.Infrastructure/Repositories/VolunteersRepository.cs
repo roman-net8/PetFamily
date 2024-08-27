@@ -19,11 +19,12 @@ public class VolunteersRepository
         await _dbContext.SaveChangesAsync(cancellationToken);
         return volunteer.Id;
     }
-    //TODO add Result Task<Result<Module, Error>>
+
+    //TODO add Error in Task<Result<Module, Error>>
     public async Task<Result<Volunteer>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(x => x.OwnedPets)  
+            .Include(x => x.OwnedPets)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer == null)

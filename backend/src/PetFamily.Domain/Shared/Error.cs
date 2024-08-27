@@ -8,7 +8,7 @@ public record Error
     public string Message { get; }
     public ErrorType Type { get; }
 
- public static readonly Error None = new(string.Empty, string.Empty, ErrorType.NotFound);
+    public static readonly Error None = new(string.Empty, string.Empty, ErrorType.None);
 
     private Error(string code, string message, ErrorType type)
     {
