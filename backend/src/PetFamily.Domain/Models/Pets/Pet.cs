@@ -19,7 +19,7 @@ public class Pet : Shared.Entity<PetId>
     public string Breed { get; private set; } = default!;
     public string Color { get; private set; } = default!;
     public string Health { get; private set; } = default!;
-    public string Address { get; private set; } = default!;
+    public Address Address { get; private set; } = default!;
     public double Weight { get; private set; }
     public double Height { get; private set; }
     public string OwnerPhone { get; private set; } = default!;
@@ -31,6 +31,6 @@ public class Pet : Shared.Entity<PetId>
     public IReadOnlyList<Requisite> Requisites => _requisites;
     public void AddRequisite(Requisite requisite) => _requisites.Add(requisite);
     public IReadOnlyList<PetPhoto> Photos => _petPhoto;
-    public void AddRequisite(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
+    public void AddPetPhoto(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
     public Volunteer Volunteer { get; private set; } = default!;
 }

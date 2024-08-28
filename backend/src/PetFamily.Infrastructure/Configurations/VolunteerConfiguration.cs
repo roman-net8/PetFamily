@@ -85,6 +85,29 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                       .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
             });
 
+            vb.OwnsMany(details => details.Addresses, vab =>
+            {
+                vab.Property(r => r.Country)
+                     .IsRequired()
+                     .HasMaxLength(Constants.MAX_ADDRESS_TEXT_LENGTH);
+
+                vab.Property(r => r.City)
+                      .IsRequired()
+                      .HasMaxLength(Constants.MAX_ADDRESS_TEXT_LENGTH);
+
+                vab.Property(r => r.Street)
+                      .IsRequired()
+                      .HasMaxLength(Constants.MAX_ADDRESS_TEXT_LENGTH);
+
+                vab.Property(r => r.HouseNumber)
+                      .IsRequired()
+                      .HasMaxLength(Constants.MIN_ADDRESS_TEXT_LENGTH);
+
+                vab.Property(r => r.AppartmentNumber)
+                      .IsRequired()
+                      .HasMaxLength(Constants.MIN_ADDRESS_TEXT_LENGTH);
+            });
+
         });
     }
 }

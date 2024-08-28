@@ -42,6 +42,29 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasMaxLength(Constants.MAX_PET_HEALTH_TEXT_LENGTH);
 
+        builder.ComplexProperty(p => p.Address, pb =>
+            {
+                pb.Property(a => a.Country)
+                .IsRequired()
+                .HasColumnName("country");
+
+                pb.Property(a => a.City)
+                .IsRequired()
+                .HasColumnName("city");
+
+                pb.Property(a => a.Street)
+                .IsRequired()
+                .HasColumnName("street");
+
+                pb.Property(a => a.HouseNumber)
+                .IsRequired()
+                .HasColumnName("house");
+
+                pb.Property(a => a.AppartmentNumber)
+                .IsRequired()
+                .HasColumnName("appartment");
+            });
+
         builder.Property(p => p.Weight)
           .IsRequired();
 

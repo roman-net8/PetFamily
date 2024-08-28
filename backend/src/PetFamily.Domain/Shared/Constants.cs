@@ -11,6 +11,7 @@ public class Constants
     public const int MAX_PATH_TEXT_LENGTH = 256;
     public const int MAX_LINK_TEXT_LENGTH = 512;
     public const int MAX_ADDRESS_TEXT_LENGTH = 256;
+    public const int MIN_ADDRESS_TEXT_LENGTH = 16;
     public const int MAX_PET_TYPE_TEXT_LENGTH = 64;
     public const int MAX_BREED_TEXT_LENGTH = 32;
     public const int MAX_PET_COLOR_TEXT_LENGTH = 32;
