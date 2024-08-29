@@ -42,6 +42,29 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
             .IsRequired()
             .HasMaxLength(Constants.MAX_PET_HEALTH_TEXT_LENGTH);
 
+        builder.ComplexProperty(p => p.Address, pb =>
+            {
+                pb.Property(a => a.Country)
+                .IsRequired()
+                .HasColumnName("country");
+
+                pb.Property(a => a.City)
+                .IsRequired()
+                .HasColumnName("city");
+
+                pb.Property(a => a.Street)
+                .IsRequired()
+                .HasColumnName("street");
+
+                pb.Property(a => a.HouseNumber)
+                .IsRequired()
+                .HasColumnName("house");
+
+                pb.Property(a => a.AppartmentNumber)
+                .IsRequired()
+                .HasColumnName("appartment");
+            });
+
         builder.Property(p => p.Weight)
           .IsRequired();
 
@@ -67,8 +90,21 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.HelpStatus)
          .IsRequired();
 
-        builder.OwnsMany(p => p.Requisites)
-            .ToJson("requisites_list");
+        builder.OwnsOne(p => p.Details, pb =>
+        {
+            pb.ToJson("details_list");
+
+            pb.OwnsMany(details => details.PetRequisites, pbr =>
+            {
+                pbr.Property(r => r.Title)
+                       .IsRequired()
+                       .HasMaxLength(Constants.MAX_TITLE_TEXT_LENGTH);
+
+                pbr.Property(r => r.Description)
+                   .IsRequired()
+                   .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
+            });
+        });
 
         builder.HasMany(p => p.Photos)
             .WithOne()

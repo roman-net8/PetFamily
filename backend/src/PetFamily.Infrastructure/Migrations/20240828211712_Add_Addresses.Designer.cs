@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetFamily.Infrastructure;
@@ -12,9 +13,11 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240828211712_Add_Addresses")]
+    partial class Add_Addresses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,56 +260,36 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasForeignKey("volunteer_id")
                         .HasConstraintName("fk_pets_volunteer_volunteer_id1");
 
-                    b.OwnsOne("PetFamily.Domain.Models.Pets.PetDetails", "Details", b1 =>
+                    b.OwnsMany("PetFamily.Domain.Shared.Requisite", "Requisites", b1 =>
                         {
                             b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
+                                .HasColumnType("uuid");
 
-                            b1.HasKey("PetId");
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Description")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.Property<string>("Title")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("PetId", "Id")
+                                .HasName("pk_pets");
 
                             b1.ToTable("pets");
 
-                            b1.ToJson("details_list");
+                            b1.ToJson("requisites_list");
 
                             b1.WithOwner()
                                 .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetFamily.Domain.Shared.Requisite", "PetRequisites", b2 =>
-                                {
-                                    b2.Property<Guid>("PetDetailsPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Description")
-                                        .IsRequired()
-                                        .HasMaxLength(256)
-                                        .HasColumnType("character varying(256)");
-
-                                    b2.Property<string>("Title")
-                                        .IsRequired()
-                                        .HasMaxLength(128)
-                                        .HasColumnType("character varying(128)");
-
-                                    b2.HasKey("PetDetailsPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PetDetailsPetId")
-                                        .HasConstraintName("fk_pets_pets_pet_details_pet_id");
-                                });
-
-                            b1.Navigation("PetRequisites");
+                                .HasConstraintName("fk_pets_pets_pet_id");
                         });
 
-                    b.Navigation("Details")
-                        .IsRequired();
+                    b.Navigation("Requisites");
 
                     b.Navigation("Volunteer");
                 });

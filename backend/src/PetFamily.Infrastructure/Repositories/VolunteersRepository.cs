@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using PetFamily.Domain.Models.Volunteers;
 using PetFamily.Domain.Shared;
 
@@ -20,19 +21,16 @@ public class VolunteersRepository
         return volunteer.Id;
     }
 
-    //TODO add Error in Task<Result<Module, Error>>
-    public async Task<Result<Volunteer>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
+    public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
             .Include(x => x.OwnedPets)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
-        if (volunteer == null)
-        {
-            return Result<Volunteer>.Failure(Errors.General.NotFound(volunteerId.Value));
-        }
+        if (volunteer is null)
+            return Errors.General.NotFound(volunteerId);
 
-        return Result<Volunteer>.Success(volunteer);
+        return volunteer;
     }
 
 }
