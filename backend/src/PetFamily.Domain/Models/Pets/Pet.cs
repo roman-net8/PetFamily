@@ -5,7 +5,7 @@ namespace PetFamily.Domain.Models.Pets;
 
 public class Pet : Shared.Entity<PetId>
 { 
-    private readonly List<PetPhoto> _petPhoto = [];
+    private readonly List<PetPhoto> _petPhoto;
 
     //For EF Сore
     private Pet(PetId id) : base(id)

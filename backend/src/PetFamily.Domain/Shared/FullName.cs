@@ -15,7 +15,7 @@ public record FullName
     }
 
     public string FirstName { get; } = default!;
-    public string MiddleName { get; } = default!;
+    public string? MiddleName { get; }
     public string LastName { get; } = default!;
 
     public static Result<FullName, Error> Create(
@@ -28,7 +28,11 @@ public record FullName
             return Errors.General.ValueIsInvalid("FullName.firstName");
         }
 
-        if (string.IsNullOrWhiteSpace(middleName) || middleName.Count() > Constants.MAX_NAME_TEXT_LENGTH)
+        if (string.IsNullOrEmpty(middleName))
+        {
+            middleName = string.Empty;
+        }
+        else if (middleName.Count() > Constants.MAX_NAME_TEXT_LENGTH)
         {
             return Errors.General.ValueIsInvalid("FullName.middleName");
         }
