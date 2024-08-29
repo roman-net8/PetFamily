@@ -5,6 +5,7 @@ public class Constants
     public const int MAX_FIRST_NAME_TEXT_LENGTH = 32;
     public const int MAX_LAST_NAME_TEXT_LENGTH = 32;
     public const int MAX_NAME_TEXT_LENGTH = 128;
+    public const int MAX_TITLE_TEXT_LENGTH = 128;
     public const int MAX_DESCRIPTION_TEXT_LENGTH = 256;
     public const int MAX_PHONE_TEXT_LENGTH = 16;
     public const int MAX_EMAIL_TEXT_LENGTH = 128;

@@ -78,7 +78,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             {
                 vrb.Property(r => r.Title)
                      .IsRequired()
-                     .HasMaxLength(Constants.MAX_NAME_TEXT_LENGTH);
+                     .HasMaxLength(Constants.MAX_TITLE_TEXT_LENGTH);
 
                 vrb.Property(r => r.Description)
                       .IsRequired()

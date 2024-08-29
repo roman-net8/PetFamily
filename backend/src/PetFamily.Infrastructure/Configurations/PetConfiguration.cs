@@ -90,8 +90,21 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
         builder.Property(p => p.HelpStatus)
          .IsRequired();
 
-        builder.OwnsMany(p => p.Requisites)
-            .ToJson("requisites_list");
+        builder.OwnsOne(p => p.Details, pb =>
+        {
+            pb.ToJson("details_list");
+
+            pb.OwnsMany(details => details.PetRequisites, pbr =>
+            {
+                pbr.Property(r => r.Title)
+                       .IsRequired()
+                       .HasMaxLength(Constants.MAX_TITLE_TEXT_LENGTH);
+
+                pbr.Property(r => r.Description)
+                   .IsRequired()
+                   .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
+            });
+        });
 
         builder.HasMany(p => p.Photos)
             .WithOne()

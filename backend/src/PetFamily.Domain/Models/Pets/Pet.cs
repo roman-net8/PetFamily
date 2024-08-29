@@ -4,8 +4,7 @@ using PetFamily.Domain.Shared;
 namespace PetFamily.Domain.Models.Pets;
 
 public class Pet : Shared.Entity<PetId>
-{
-    private readonly List<Requisite> _requisites = [];
+{ 
     private readonly List<PetPhoto> _petPhoto = [];
 
     //For EF Сore
@@ -28,8 +27,7 @@ public class Pet : Shared.Entity<PetId>
     public DateOnly DateOfBirth { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public HelpStatus HelpStatus { get; private set; }
-    public IReadOnlyList<Requisite> Requisites => _requisites;
-    public void AddRequisite(Requisite requisite) => _requisites.Add(requisite);
+    public PetDetails Details { get; private set; }
     public IReadOnlyList<PetPhoto> Photos => _petPhoto;
     public void AddPetPhoto(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
     public Volunteer Volunteer { get; private set; } = default!;
