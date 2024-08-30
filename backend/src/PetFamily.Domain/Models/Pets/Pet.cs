@@ -4,7 +4,7 @@ using PetFamily.Domain.Shared;
 namespace PetFamily.Domain.Models.Pets;
 
 public class Pet : Shared.Entity<PetId>
-{ 
+{
     private readonly List<PetPhoto> _petPhoto;
 
     //For EF Сore
@@ -31,4 +31,5 @@ public class Pet : Shared.Entity<PetId>
     public IReadOnlyList<PetPhoto> Photos => _petPhoto;
     public void AddPetPhoto(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
     public Volunteer Volunteer { get; private set; } = default!;
+    public SpeciesBreedValueObject SpeciesBreed { get; private set; }
 }
