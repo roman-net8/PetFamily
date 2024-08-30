@@ -24,6 +24,12 @@ public static class Errors
 
         public static Error ValueIsEmpty(string? name = null)
         {
+            var label = name ?? "Value";
+            return Error.Validation("value.is.empty", $"{label} can not be empty.");
+        }
+
+        public static Error ValueIsInvalidLength(string? name = null)
+        {
             var label = name == null ? "" : " " + name + " ";
             return Error.Validation("Invalid.length", $"invalid{label}length");
         }

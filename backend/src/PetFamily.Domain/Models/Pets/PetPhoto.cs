@@ -1,5 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
+using System.Xml.Linq;
 
 namespace PetFamily.Domain.Models.Pets;
 
@@ -21,11 +22,16 @@ public class PetPhoto : Shared.Entity<PetPhotoId>
 
     public static Result<PetPhoto, Error> Create(PetPhotoId id, string storagePath, bool isMain)
     {
-        if (string.IsNullOrWhiteSpace(storagePath) || storagePath.Length > Constants.MAX_PATH_TEXT_LENGTH)
+        if (string.IsNullOrWhiteSpace(storagePath))
         {
-            return Errors.General.ValueIsEmpty(nameof(Path));
+            return Errors.General.ValueIsEmpty(nameof(storagePath));
         }
 
+        if (storagePath.Length > Constants.MAX_PATH_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalidLength(nameof(storagePath));
+        }
+         
         return new PetPhoto(id, storagePath, isMain);
     }
 }

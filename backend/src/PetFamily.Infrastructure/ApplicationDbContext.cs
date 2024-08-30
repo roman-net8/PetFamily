@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using PetFamily.Domain.Models.Pets;
 using PetFamily.Domain.Models.Volunteers;
 
 namespace PetFamily.Infrastructure;
@@ -8,6 +9,9 @@ namespace PetFamily.Infrastructure;
 public class ApplicationDbContext(IConfiguration configuration) : DbContext
 {
     private const string DATABASE = "Database";
+
+    public DbSet<Volunteer> Volunteers { get; set; } = null!;
+    public DbSet<Species> Species { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -23,6 +27,4 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
-
-    public DbSet<Volunteer> Volunteers { get; set; } = null!;
 }

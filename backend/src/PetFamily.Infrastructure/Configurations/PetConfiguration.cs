@@ -108,7 +108,26 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
         builder.HasMany(p => p.Photos)
             .WithOne()
-            .HasForeignKey("pet_id")
-          .OnDelete(DeleteBehavior.NoAction);
+            .HasForeignKey("pet_id") 
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.ComplexProperty(p => p.SpeciesBreed,
+           pb =>
+           {
+               pb.Property(s => s.SpeciesId)
+               .HasConversion(
+                   id => id.Value,
+                   value => SpeciesId.Create(value))
+               .IsRequired()
+               .HasColumnName("species_id");
+
+               pb.Property(s => s.BreedId)
+               .HasConversion(
+                   id => id.Value,
+                   value => BreedId.Create(value))
+               .IsRequired()
+               .HasColumnName("breed_id");
+           });
+
     }
 }
