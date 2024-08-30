@@ -13,8 +13,8 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240829131520_Initial")]
-    partial class Initial
+    [Migration("20240830164656_Add_Species_Breed")]
+    partial class Add_Species_Breed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,31 @@ namespace PetFamily.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("PetFamily.Domain.Models.Pets.Breed", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("species_id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("species_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_breed");
+
+                    b.HasIndex("species_id")
+                        .HasDatabaseName("ix_breed_species_id");
+
+                    b.ToTable("breed", (string)null);
+                });
 
             modelBuilder.Entity("PetFamily.Domain.Models.Pets.Pet", b =>
                 {
@@ -140,6 +165,19 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasColumnName("street");
                         });
 
+                    b.ComplexProperty<Dictionary<string, object>>("SpeciesBreed", "PetFamily.Domain.Models.Pets.Pet.SpeciesBreed#SpeciesBreedValueObject", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<Guid>("BreedId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("breed_id");
+
+                            b1.Property<Guid>("SpeciesId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("species_id");
+                        });
+
                     b.HasKey("Id")
                         .HasName("pk_pets");
 
@@ -183,6 +221,24 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasDatabaseName("ix_pet_photos_pet_id");
 
                     b.ToTable("pet_photos", (string)null);
+                });
+
+            modelBuilder.Entity("PetFamily.Domain.Models.Pets.Species", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_species");
+
+                    b.ToTable("species", (string)null);
                 });
 
             modelBuilder.Entity("PetFamily.Domain.Models.Volunteers.Volunteer", b =>
@@ -244,6 +300,14 @@ namespace PetFamily.Infrastructure.Migrations
                         .HasDatabaseName("ix_volunteer_phone");
 
                     b.ToTable("volunteer", (string)null);
+                });
+
+            modelBuilder.Entity("PetFamily.Domain.Models.Pets.Breed", b =>
+                {
+                    b.HasOne("PetFamily.Domain.Models.Pets.Species", null)
+                        .WithMany("Breeds")
+                        .HasForeignKey("species_id")
+                        .HasConstraintName("fk_breed_species_species_id");
                 });
 
             modelBuilder.Entity("PetFamily.Domain.Models.Pets.Pet", b =>
@@ -462,6 +526,11 @@ namespace PetFamily.Infrastructure.Migrations
             modelBuilder.Entity("PetFamily.Domain.Models.Pets.Pet", b =>
                 {
                     b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("PetFamily.Domain.Models.Pets.Species", b =>
+                {
+                    b.Navigation("Breeds");
                 });
 
             modelBuilder.Entity("PetFamily.Domain.Models.Volunteers.Volunteer", b =>

@@ -16,9 +16,9 @@ public class Species : Shared.Entity<SpeciesId>
         Breeds = breeds;
     }
 
-    public string Name { get; } = default!;
+    public string Name { get; private set; } = default!;
 
-    public List<Breed> Breeds { get;  }
+    public List<Breed> Breeds { get; private set; }
 
     public void AddBreed(Breed breed)
     {
