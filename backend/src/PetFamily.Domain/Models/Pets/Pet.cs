@@ -31,5 +31,5 @@ public class Pet : Shared.Entity<PetId>
     public IReadOnlyList<PetPhoto> Photos => _petPhoto;
     public void AddPetPhoto(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
     public Volunteer Volunteer { get; private set; } = default!;
-    public SpeciesBreedValueObject SpeciesBreed { get; private set; }
+    public SpeciesBreedType SpeciesBreed { get; private set; }
 }

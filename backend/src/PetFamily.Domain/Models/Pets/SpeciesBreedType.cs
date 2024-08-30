@@ -1,8 +1,8 @@
 ﻿namespace PetFamily.Domain.Models.Pets;
 
-public record SpeciesBreedValueObject
+public record SpeciesBreedType
 {
-    public SpeciesBreedValueObject(SpeciesId speciesId, BreedId breedId)
+    public SpeciesBreedType(SpeciesId speciesId, BreedId breedId)
     {
         SpeciesId = speciesId;
         BreedId = breedId;
