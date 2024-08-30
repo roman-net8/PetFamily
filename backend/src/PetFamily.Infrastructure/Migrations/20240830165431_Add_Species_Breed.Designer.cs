@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240830164656_Add_Species_Breed")]
+    [Migration("20240830165431_Add_Species_Breed")]
     partial class Add_Species_Breed
     {
         /// <inheritdoc />
@@ -165,7 +165,7 @@ namespace PetFamily.Infrastructure.Migrations
                                 .HasColumnName("street");
                         });
 
-                    b.ComplexProperty<Dictionary<string, object>>("SpeciesBreed", "PetFamily.Domain.Models.Pets.Pet.SpeciesBreed#SpeciesBreedValueObject", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("SpeciesBreed", "PetFamily.Domain.Models.Pets.Pet.SpeciesBreed#SpeciesBreedType", b1 =>
                         {
                             b1.IsRequired();
 
