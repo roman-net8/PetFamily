@@ -33,27 +33,29 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                 .HasMaxLength(Constants.MAX_LAST_NAME_TEXT_LENGTH);
         });
 
-        builder.Property(v => v.Email)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_EMAIL_TEXT_LENGTH);
+        builder.ComplexProperty(v => v.PhoneNumber, vb =>
+        {
+            vb.Property(n => n.Value)
+                .HasMaxLength(Constants.MAX_PHONE_TEXT_LENGTH)
+                .HasColumnName("phone_number")
+                .IsRequired();
+        });
 
-        builder.Property(v => v.Description)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH);
+        builder.ComplexProperty(v => v.Email, vb =>
+        {
+            vb.Property(e => e.Value)
+                .HasMaxLength(Constants.MAX_EMAIL_TEXT_LENGTH)
+                .HasColumnName("email")
+                .IsRequired();
+        });
 
-        builder.Property(v => v.YearsOfExperience)
-            .IsRequired();
-
-        builder.Property(v => v.Phone)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_PHONE_TEXT_LENGTH);
-
-        builder.HasIndex(v => v.Phone)
-             .IsUnique();
-
-        builder.HasMany(v => v.OwnedPets)
-             .WithOne()
-             .HasForeignKey("volunteer_id");
+        builder.ComplexProperty(v => v.Description, vb =>
+        {
+            vb.Property(d => d.Value)
+                .HasMaxLength(Constants.MAX_DESCRIPTION_TEXT_LENGTH)
+                .HasColumnName("description")
+                .IsRequired();
+        });
 
         builder.OwnsOne(v => v.Details, vb =>
         {
@@ -109,5 +111,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             });
 
         });
+
+        builder.HasMany(v => v.Pets)
+            .WithOne()
+             .HasForeignKey("volunteer_id")
+             .OnDelete(DeleteBehavior.Cascade);
+        //указываем что при получение данных из табл volunteer добавлялась через InnerJoin данные из Pets
+        builder.Navigation(v => v.Pets).AutoInclude();
     }
 }

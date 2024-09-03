@@ -1,37 +1,31 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Shared;
-using System.Xml.Linq;
 
 namespace PetFamily.Domain.Models.Pets;
-
-public class PetPhoto : Shared.Entity<PetPhotoId>
+public record PetPhoto
 {
-    //For EF Сore
-    private PetPhoto(PetPhotoId id) : base(id)
-    {
-    }
-
-    public PetPhoto(PetPhotoId id, string storagePath, bool isMain) : base(id)
+    private PetPhoto(string storagePath, bool isMainPhoto)
     {
         StoragePath = storagePath;
-        IsMain = isMain;
+        IsMainPhoto = isMainPhoto;
     }
 
-    public string StoragePath { get; } = default!;
-    public bool IsMain { get; }
+    public string StoragePath { get; }
+    public bool IsMainPhoto { get; }
 
-    public static Result<PetPhoto, Error> Create(PetPhotoId id, string storagePath, bool isMain)
+    public static Result<PetPhoto, Error> Create(string storagePath, bool isMainPhoto)
     {
         if (string.IsNullOrWhiteSpace(storagePath))
         {
-            return Errors.General.ValueIsEmpty(nameof(storagePath));
+            return Errors.General.ValueIsEmpty("StoragePath");
         }
 
         if (storagePath.Length > Constants.MAX_PATH_TEXT_LENGTH)
         {
-            return Errors.General.ValueIsInvalidLength(nameof(storagePath));
+            return Errors.General.ValueIsInvalidLength("StoragePath");
         }
-         
-        return new PetPhoto(id, storagePath, isMain);
+        return new PetPhoto(storagePath, isMainPhoto);
     }
 }
+
+
