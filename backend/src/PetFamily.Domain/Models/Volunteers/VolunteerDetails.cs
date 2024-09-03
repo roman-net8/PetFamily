@@ -1,4 +1,4 @@
-﻿using PetFamily.Domain.Shared;
+﻿using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Volunteers;
 public record VolunteerDetails

@@ -24,7 +24,7 @@ public class VolunteersRepository
     public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(x => x.OwnedPets)
+            .Include(x => x.Pets)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer is null)

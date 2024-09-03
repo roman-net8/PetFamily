@@ -1,6 +1,6 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace PetFamily.Domain.Shared;
+namespace PetFamily.Domain.Shared.ValueObjects;
 
 public record Address
 {
@@ -25,10 +25,10 @@ public record Address
     public string AppartmentNumber { get; } = default!;
 
     public static Result<Address, Error> Create(
-        string country, 
-        string city, 
-        string street, 
-        string house, 
+        string country,
+        string city,
+        string street,
+        string house,
         string appartment)
     {
         if (string.IsNullOrWhiteSpace(country) || country.Count() > Constants.MAX_ADDRESS_TEXT_LENGTH)

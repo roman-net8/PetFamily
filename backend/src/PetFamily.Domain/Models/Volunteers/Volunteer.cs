@@ -1,5 +1,7 @@
-﻿using PetFamily.Domain.Models.Pets;
+﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Models.Pets;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Volunteers;
 
@@ -10,16 +12,53 @@ public class Volunteer : Shared.Entity<VolunteerId>
     {
     }
 
+    public Volunteer(
+        VolunteerId id,
+        FullName fullName,
+        PhoneNumber phoneNumber,
+        Email email,
+        Description description,
+        Decimal yearsOfExperience,
+        VolunteerDetails volunteerDetails)
+        : base(id)
+    {
+        FullName = fullName;
+        PhoneNumber = phoneNumber;
+        Email = email;
+        Description = description;
+        YearsOfExperience = yearsOfExperience;
+        Details = volunteerDetails;
+    }
+
     public FullName FullName { get; private set; } = default!;
-    public string Email { get; private set; } = default!;
-    public string Description { get; private set; } = default!;
+    public PhoneNumber PhoneNumber { get; private set; } = default!;
+    public Email Email { get; private set; } = default!;
+    public Description Description { get; private set; } = default!;
     public Decimal YearsOfExperience { get; private set; }
-
-    public int GetAmountPetsThatHaveFoundHome() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
-    public int GetAmountPetsThatSearchHome() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.NeedHome);
-    public int GetAmountPetsOnTreatment() => OwnedPets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
-    public string Phone { get; private set; } = default!;
-
     public VolunteerDetails Details { get; private set; }
-    public List<Pet> OwnedPets { get; private set; } = new();
+    public List<Pet> Pets { get; private set; } = new();
+
+    public int GetAmountPetsThatHaveFoundHome() => Pets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
+    public int GetAmountPetsThatSearchHome() => Pets.Count(p => p.HelpStatus == HelpStatus.NeedHome);
+    public int GetAmountPetsOnTreatment() => Pets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
+
+    public static Result<Volunteer, Error> Create(
+        VolunteerId id,
+        FullName fullName,
+        PhoneNumber phoneNumber,
+        Email email,
+        Description description,
+        Decimal yearsOfExperience,
+        VolunteerDetails volunteerDetails)
+    {
+        return new Volunteer(
+            id,
+            fullName,
+            phoneNumber,
+            email,
+            description,
+            yearsOfExperience,
+            volunteerDetails);
+    }
+
 }

@@ -1,35 +1,63 @@
-﻿using PetFamily.Domain.Models.Volunteers;
-using PetFamily.Domain.Shared;
+﻿using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Pets;
 
 public class Pet : Shared.Entity<PetId>
 {
-    private readonly List<PetPhoto> _petPhoto;
-
     //For EF Сore
     private Pet(PetId id) : base(id)
     {
     }
 
-    public string Name { get; private set; } = default!;
-    public string Type { get; private set; } = default!;
-    public string Description { get; private set; } = default!;
-    public string Breed { get; private set; } = default!;
-    public string Color { get; private set; } = default!;
-    public string Health { get; private set; } = default!;
+    private Pet(
+        PetId petId,
+        NickName nickName,
+        Description description,
+        Color color,
+        HealthInfo healthInfo,
+        Address address,
+        PetAttributes petAttributes, 
+        bool isCastrated,
+        bool isVaccinated,
+        DateOnly dateOfBirth,
+        DateTime createdDate,
+        HelpStatus helpStatus,
+        PetRequisites petRequisites,
+        Photos photos,
+        SpeciesBreedType speciesBreedType)
+    : base(petId)
+    {
+        NickName = nickName;
+        Description = description;
+        Color = color;
+        HealthInfo = healthInfo;
+        PetRequisites = petRequisites;
+        Address = address;
+        PetAttributes = petAttributes; 
+        IsCastrated = isCastrated;
+        IsVaccinated = isVaccinated;
+        DateOfBirth = dateOfBirth;
+        CreatedDate = createdDate;
+        HelpStatus = helpStatus;
+        PetRequisites = petRequisites;
+        Photos = photos;
+        SpeciesBreed = speciesBreedType;
+    }
+
+    public NickName NickName { get; private set; } = default!;
+    public Description Description { get; private set; } = default!;
+    public Color Color { get; private set; } = default!;
+    public HealthInfo HealthInfo { get; private set; } = default!;
     public Address Address { get; private set; } = default!;
-    public double Weight { get; private set; }
-    public double Height { get; private set; }
-    public string OwnerPhone { get; private set; } = default!;
+    public PetAttributes PetAttributes { get; private set; } 
     public bool IsCastrated { get; private set; }
     public bool IsVaccinated { get; private set; }
     public DateOnly DateOfBirth { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public HelpStatus HelpStatus { get; private set; }
-    public PetDetails Details { get; private set; }
-    public IReadOnlyList<PetPhoto> Photos => _petPhoto;
-    public void AddPetPhoto(PetPhoto petPhoto) => _petPhoto.Add(petPhoto);
-    public Volunteer Volunteer { get; private set; } = default!;
+    public PetRequisites PetRequisites { get; private set; }
+    public Photos Photos { get; private set; } = default!; 
     public SpeciesBreedType SpeciesBreed { get; private set; }
+
 }
