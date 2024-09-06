@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace PetFamily.Domain.Models.Volunteers;
+﻿namespace PetFamily.Domain.Models.Volunteers;
 
 public record VolunteerId
 {
@@ -10,7 +8,7 @@ public record VolunteerId
     }
 
     public Guid Value { get; }
-    public static VolunteerId NewVolunteerId() => new(Guid.NewGuid());
+    public static VolunteerId NewId() => new(Guid.NewGuid());
     public static VolunteerId Empty() => new(Guid.Empty);
     public static VolunteerId Create(Guid id) => new(id);
 

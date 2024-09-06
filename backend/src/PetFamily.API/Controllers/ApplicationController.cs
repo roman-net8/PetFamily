@@ -7,3 +7,6 @@ namespace PetFamily.API.Controllers;
 public abstract class ApplicationController : ControllerBase
 {
 }
+
+
+

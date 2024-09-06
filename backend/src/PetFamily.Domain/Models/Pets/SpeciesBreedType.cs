@@ -1,4 +1,6 @@
-﻿namespace PetFamily.Domain.Models.Pets;
+﻿using PetFamily.Domain.Models.Pets.Ids;
+
+namespace PetFamily.Domain.Models.Pets;
 
 public record SpeciesBreedType
 {

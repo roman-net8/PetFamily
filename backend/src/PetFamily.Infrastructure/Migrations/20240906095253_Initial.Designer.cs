@@ -13,7 +13,7 @@ using PetFamily.Infrastructure;
 namespace PetFamily.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240903202121_Initial")]
+    [Migration("20240906095253_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -296,6 +296,52 @@ namespace PetFamily.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_pets_volunteer_volunteer_id");
 
+                    b.OwnsOne("PetFamily.Domain.Models.Pets.PetPhotoList", "PetPhotoList", b1 =>
+                        {
+                            b1.Property<Guid>("PetId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.HasKey("PetId");
+
+                            b1.ToTable("pets");
+
+                            b1.ToJson("photos_list");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PetId")
+                                .HasConstraintName("fk_pets_pets_id");
+
+                            b1.OwnsMany("PetFamily.Domain.Models.Pets.PetPhoto", "Value", b2 =>
+                                {
+                                    b2.Property<Guid>("PetPhotoListPetId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("integer");
+
+                                    b2.Property<bool>("IsMainPhoto")
+                                        .HasColumnType("boolean");
+
+                                    b2.Property<string>("StoragePath")
+                                        .IsRequired()
+                                        .HasMaxLength(256)
+                                        .HasColumnType("character varying(256)");
+
+                                    b2.HasKey("PetPhotoListPetId", "Id")
+                                        .HasName("pk_pets");
+
+                                    b2.ToTable("pets");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("PetPhotoListPetId")
+                                        .HasConstraintName("fk_pets_pets_pet_photo_list_pet_id");
+                                });
+
+                            b1.Navigation("Value");
+                        });
+
                     b.OwnsOne("PetFamily.Domain.Models.Pets.PetRequisites", "PetRequisites", b1 =>
                         {
                             b1.Property<Guid>("PetId")
@@ -344,56 +390,10 @@ namespace PetFamily.Infrastructure.Migrations
                             b1.Navigation("PetRequisiteList");
                         });
 
-                    b.OwnsOne("PetFamily.Domain.Shared.ValueObjects.Photos", "Photos", b1 =>
-                        {
-                            b1.Property<Guid>("PetId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
-
-                            b1.HasKey("PetId");
-
-                            b1.ToTable("pets");
-
-                            b1.ToJson("photos_list");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PetId")
-                                .HasConstraintName("fk_pets_pets_id");
-
-                            b1.OwnsMany("PetFamily.Domain.Models.Pets.PetPhoto", "Value", b2 =>
-                                {
-                                    b2.Property<Guid>("PhotosPetId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<bool>("IsMainPhoto")
-                                        .HasColumnType("boolean");
-
-                                    b2.Property<string>("StoragePath")
-                                        .IsRequired()
-                                        .HasMaxLength(256)
-                                        .HasColumnType("character varying(256)");
-
-                                    b2.HasKey("PhotosPetId", "Id")
-                                        .HasName("pk_pets");
-
-                                    b2.ToTable("pets");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PhotosPetId")
-                                        .HasConstraintName("fk_pets_pets_photos_pet_id");
-                                });
-
-                            b1.Navigation("Value");
-                        });
-
-                    b.Navigation("PetRequisites")
+                    b.Navigation("PetPhotoList")
                         .IsRequired();
 
-                    b.Navigation("Photos")
+                    b.Navigation("PetRequisites")
                         .IsRequired();
                 });
 
