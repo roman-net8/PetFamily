@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using PetFamily.Domain.Models.Pets.Ids;
 using PetFamily.Domain.Shared;
 
 namespace PetFamily.Domain.Models.Pets;

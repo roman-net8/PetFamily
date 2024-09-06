@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PetFamily.Domain.Models.Volunteers;
 using PetFamily.Domain.Shared;
+using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Infrastructure.Repositories;
 
@@ -29,6 +30,20 @@ public class VolunteersRepository
 
         if (volunteer is null)
             return Errors.General.NotFound(volunteerId);
+
+        return volunteer;
+    }
+
+    public async Task<Result<Volunteer, Error>> GetByPhone(PhoneNumber requestPhone, CancellationToken cancellationToken = default)
+    {
+        var volunteer = await _dbContext.Volunteers
+            .Include(v => v.Pets)
+            .FirstOrDefaultAsync(p => p.PhoneNumber == requestPhone, cancellationToken);
+
+        if (volunteer is null)
+        {
+            return Errors.General.NotFound(Guid.Empty);
+        }
 
         return volunteer;
     }

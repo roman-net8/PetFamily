@@ -51,6 +51,9 @@ public class Volunteer : Shared.Entity<VolunteerId>
         Decimal yearsOfExperience,
         VolunteerDetails volunteerDetails)
     {
+        if (id == null)
+            Errors.General.ValueIsInvalid("Volunteer.id");
+
         return new Volunteer(
             id,
             fullName,

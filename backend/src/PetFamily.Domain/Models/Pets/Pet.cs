@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.Shared;
+﻿using PetFamily.Domain.Models.Pets.Ids;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Pets;
@@ -24,7 +25,7 @@ public class Pet : Shared.Entity<PetId>
         DateTime createdDate,
         HelpStatus helpStatus,
         PetRequisites petRequisites,
-        Photos photos,
+        PetPhotoList photos,
         SpeciesBreedType speciesBreedType)
     : base(petId)
     {
@@ -41,7 +42,7 @@ public class Pet : Shared.Entity<PetId>
         CreatedDate = createdDate;
         HelpStatus = helpStatus;
         PetRequisites = petRequisites;
-        Photos = photos;
+        PetPhotoList = photos;
         SpeciesBreed = speciesBreedType;
     }
 
@@ -57,7 +58,7 @@ public class Pet : Shared.Entity<PetId>
     public DateTime CreatedDate { get; private set; }
     public HelpStatus HelpStatus { get; private set; }
     public PetRequisites PetRequisites { get; private set; }
-    public Photos Photos { get; private set; } = default!; 
+    public PetPhotoList PetPhotoList { get; private set; } = default!; 
     public SpeciesBreedType SpeciesBreed { get; private set; }
 
 }

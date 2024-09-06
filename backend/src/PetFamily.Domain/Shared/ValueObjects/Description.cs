@@ -4,12 +4,12 @@ namespace PetFamily.Domain.Shared.ValueObjects;
 
 public record Description
 {
-    public string Value { get; }
-
     private Description(string value)
     {
         Value = value;
     }
+
+    public string Value { get; }
 
     public static Result<Description, Error> Create(string description)
     {
