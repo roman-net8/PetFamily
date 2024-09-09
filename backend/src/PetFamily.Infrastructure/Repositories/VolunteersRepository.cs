@@ -1,12 +1,13 @@
 ﻿using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
+using PetFamily.Application.Volunteers;
 using PetFamily.Domain.Models.Volunteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Infrastructure.Repositories;
 
-public class VolunteersRepository
+public class VolunteersRepository : IVolunteersRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

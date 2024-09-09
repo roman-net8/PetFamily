@@ -1,18 +1,20 @@
 ﻿using CSharpFunctionalExtensions;
 using PetFamily.Domain.Models.Volunteers;
+using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.Volunteers.Create;
 public class CreateVolunteerService
 {
-    private readonly IVolunteersRepositories _volunteersRepositories;
+    private readonly IVolunteersRepository _volunteersRepositories;
 
-    public CreateVolunteerService(IVolunteersRepositories volunteersRepositories)
+    public CreateVolunteerService(IVolunteersRepository volunteersRepositories)
     {
         _volunteersRepositories = volunteersRepositories;
     }
 
-    public async Task<Result<Guid>> Create(CreateVolunteerRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> Create(
+        CreateVolunteerRequest request, CancellationToken cancellationToken)
     {
         var volunteerId = VolunteerId.NewId();
 
