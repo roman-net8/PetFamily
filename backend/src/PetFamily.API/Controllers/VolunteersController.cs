@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetFamily.API.Extensions;
 using PetFamily.Application.Volunteers.Create;
 
 namespace PetFamily.API.Controllers;
@@ -14,8 +15,8 @@ public class VolunteersController : ApplicationController
         var result = await service.Create(request, cancellationToken);
 
         if (result.IsFailure)
-        {
-            return BadRequest(result.Error);
+        { 
+            return result.Error.ToResponse();
         }
 
         return Ok(result.Value);
