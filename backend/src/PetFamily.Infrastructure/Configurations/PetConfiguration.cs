@@ -122,8 +122,7 @@ public class PetConfiguration : IEntityTypeConfiguration<Pet>
 
             pb.OwnsMany(b => b.Value, bp =>
             {
-                bp
-                    .Property(i => i.StoragePath)
+                bp.Property(i => i.StoragePath)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_PATH_TEXT_LENGTH);
 
