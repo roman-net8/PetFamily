@@ -11,12 +11,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <Folder Include="Volunteers\Delete\" />
+	  <Folder Include="Volunteers\Restore\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Volunteers\Delete\" />
-	  <Folder Include="Volunteers\Restore\" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+	  <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
 	</ItemGroup>
 
 </Project>

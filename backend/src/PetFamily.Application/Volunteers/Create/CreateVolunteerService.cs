@@ -14,7 +14,7 @@ public class CreateVolunteerService
     }
 
     public async Task<Result<Guid, Error>> Create(
-        CreateVolunteerRequest request, CancellationToken cancellationToken)
+        CreateVolunteerCommand request, CancellationToken cancellationToken)
     {
         var volunteerId = VolunteerId.NewId();
 

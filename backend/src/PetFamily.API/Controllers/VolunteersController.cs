@@ -9,17 +9,17 @@ public class VolunteersController : ApplicationController
     [HttpPost]
     public async Task<ActionResult<Guid>> Create(
         [FromServices] CreateVolunteerService service,
-        [FromBody] CreateVolunteerRequest request,
+        [FromBody] CreateVolunteerCommand request,
         CancellationToken cancellationToken)
     {
         var result = await service.Create(request, cancellationToken);
 
         if (result.IsFailure)
-        { 
+        {
             return result.Error.ToResponse();
         }
 
-        return Ok(result.Value);
+        return result.IsFailure ? result.Error.ToResponse() : Ok(result.Value);
     }
 
 }
