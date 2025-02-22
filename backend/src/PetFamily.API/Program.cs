@@ -1,4 +1,3 @@
-using PetFamily.API.Extensions;
 using PetFamily.API.Validation;
 using PetFamily.Application.Volunteers;
 using PetFamily.Application.Volunteers.Create;
@@ -15,11 +14,15 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.Debug()
     .WriteTo.Seq(builder.Configuration.GetConnectionString("Seq")
-                 ?? throw new ArgumentNullException("Seq"))
+                 ?? throw new ArgumentNullException("Seq connection string is missing"))
+    .Enrich.WithThreadId()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithEnvironmentUserName()
     .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning)
     .CreateLogger();
+
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -29,7 +32,7 @@ builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<CreateVolunteerService>();
 builder.Services.AddScoped<IVolunteersRepository, VolunteersRepository>();
 
-builder.Services.AddSerilog();
+builder.Services.AddSerilog();// –егистраци€ Serilog в DI-контейнере  (в систему dependency injection (DI) )
 
 //добовл€ем валидацию - FluentValidation (пакет SharpGrip.FluentValidation.AutoValidation.Mvc)
 builder.Services.AddFluentValidationAutoValidation(configuration =>
@@ -37,18 +40,18 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
     configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
 });
 
-var app = builder.Build(); 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    await app.ApplyMigration();  //примен€ем миграции автоматически при запуске проекта
+    // await app.ApplyMigration();  //примен€ем миграции автоматически при запуске проекта
 }
 
-app.UseAuthorization();
-
+app.UseSerilogRequestLogging();//добавл€ем библиотеки Serilog в конвейер middleware - ¬ключение логировани€ HTTP-запросов
+app.UseAuthorization(); 
 app.MapControllers();
 
 app.Run();
