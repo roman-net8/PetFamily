@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Models.Volunteers;
 using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
@@ -7,14 +8,17 @@ namespace PetFamily.Application.Volunteers.Create;
 public class CreateVolunteerService
 {
     private readonly IVolunteersRepository _volunteersRepositories;
+    private readonly ILogger<CreateVolunteerService> _logger;
 
-    public CreateVolunteerService(IVolunteersRepository volunteersRepositories)
+    public CreateVolunteerService(
+        IVolunteersRepository volunteersRepositories,
+        ILogger<CreateVolunteerService> logger)
     {
         _volunteersRepositories = volunteersRepositories;
+        _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> Create(
-        CreateVolunteerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> CreateVolunteer(CreateVolunteerCommand request, CancellationToken cancellationToken)
     {
         var volunteerId = VolunteerId.NewId();
 
@@ -30,7 +34,7 @@ public class CreateVolunteerService
             request.EmailDto.Value).Value;
 
         var description = Description.Create(
-      request.DescriptionDto.Value).Value;
+            request.DescriptionDto.Value).Value;
 
         var socialNetworks = request.SocialNetworkListDto?
             .Select(s => SocialNetwork.Create(s.UserName, s.Description, s.Link).Value).ToList()
@@ -48,7 +52,7 @@ public class CreateVolunteerService
             socialNetworks,
             requisites,
             addresses
-            );
+            ).Value;
 
         var volunteer = Volunteer.Create
             (
@@ -58,12 +62,13 @@ public class CreateVolunteerService
                 email,
                 description,
                 request.YearsOfExperience,
-                volunteerDetails.Value
+                volunteerDetails
             );
 
         await _volunteersRepositories.Add(volunteer.Value, cancellationToken);
+        _logger.LogInformation("Created volunteer with ID: {id}", volunteerId);
 
-        return volunteerId.Value;
+        return (Guid)volunteer.Value.Id;
     }
 
 }

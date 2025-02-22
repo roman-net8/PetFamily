@@ -12,13 +12,9 @@ public class VolunteersController : ApplicationController
         [FromBody] CreateVolunteerCommand request,
         CancellationToken cancellationToken)
     {
-        var result = await service.Create(request, cancellationToken);
 
-        if (result.IsFailure)
-        {
-            return result.Error.ToResponse();
-        }
-
+        var result = await service.CreateVolunteer(request, cancellationToken);
+         
         return result.IsFailure ? result.Error.ToResponse() : Ok(result.Value);
     }
 
