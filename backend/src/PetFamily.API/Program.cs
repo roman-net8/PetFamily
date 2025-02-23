@@ -1,3 +1,4 @@
+using PetFamily.API.Middlewares;
 using PetFamily.API.Validation;
 using PetFamily.Application.Volunteers;
 using PetFamily.Application.Volunteers.Create;
@@ -9,7 +10,7 @@ using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//добовляем логгер
+//добовляем логгер Seq
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.Debug()
@@ -41,6 +42,7 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 });
 
 var app = builder.Build();
+app.UseExceptionHandleMiddleware();//добавляем обработку исключений
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
