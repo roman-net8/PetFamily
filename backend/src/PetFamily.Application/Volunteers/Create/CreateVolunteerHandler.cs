@@ -5,20 +5,22 @@ using PetFamily.Domain.Shared;
 using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.Volunteers.Create;
-public class CreateVolunteerService
+public class CreateVolunteerHandler
 {
-    private readonly IVolunteersRepository _volunteersRepositories;
-    private readonly ILogger<CreateVolunteerService> _logger;
+    private readonly IVolunteerRepository _volunteerRepository;
+    private readonly ILogger<CreateVolunteerHandler> _logger;
 
-    public CreateVolunteerService(
-        IVolunteersRepository volunteersRepositories,
-        ILogger<CreateVolunteerService> logger)
+    public CreateVolunteerHandler(
+        IVolunteerRepository volunteersRepositories,
+        ILogger<CreateVolunteerHandler> logger)
     {
-        _volunteersRepositories = volunteersRepositories;
+        _volunteerRepository = volunteersRepositories;
         _logger = logger;
     }
 
-    public async Task<Result<Guid, Error>> CreateVolunteer(CreateVolunteerCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid, Error>> CreateVolunteer(
+        CreateVolunteerCommand request, 
+        CancellationToken cancellationToken)
     {
         var volunteerId = VolunteerId.NewId();
 
@@ -65,7 +67,8 @@ public class CreateVolunteerService
                 volunteerDetails
             );
 
-        await _volunteersRepositories.Add(volunteer.Value, cancellationToken);
+        await _volunteerRepository.Add(volunteer.Value, cancellationToken);
+
         _logger.LogInformation("Created volunteer with ID: {id}", volunteerId);
 
         return (Guid)volunteer.Value.Id;

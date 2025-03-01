@@ -19,9 +19,9 @@ public record VolunteerDetails
         Addresses = addresses;
     }
 
-    public IReadOnlyList<SocialNetwork> SocialNetworks { get; } = new List<SocialNetwork>();
-    public IReadOnlyList<Requisite> Requisites { get; } = new List<Requisite>();
-    public IReadOnlyList<Address> Addresses { get; } = new List<Address>();
+    public IReadOnlyList<SocialNetwork> SocialNetworks { get; private set; } = new List<SocialNetwork>();
+    public IReadOnlyList<Requisite> Requisites { get; private set; } = new List<Requisite>();
+    public IReadOnlyList<Address> Addresses { get; private set; } = new List<Address>();
 
     public static Result<VolunteerDetails, Error> Create(
         List<SocialNetwork> socialNetworks,
@@ -29,5 +29,17 @@ public record VolunteerDetails
         List<Address> addresses)
     {
         return new VolunteerDetails(socialNetworks, requisites, addresses);
+    }
+
+    public Result UpdateRequisites(List<Requisite> requisites)
+    {
+        Requisites = requisites;
+        return Result.Success();
+    }
+
+    public Result UpdateSocialNetworks(List<SocialNetwork> socialNetwork)
+    {
+        SocialNetworks = socialNetwork;
+        return Result.Success();
     }
 }

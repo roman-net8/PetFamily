@@ -1,7 +1,7 @@
 ﻿
 
 using FluentValidation;
-using PetFamily.Domain.Shared;
+using PetFamily.Application.Validation;
 using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Application.Volunteers.Commands.AddPet;

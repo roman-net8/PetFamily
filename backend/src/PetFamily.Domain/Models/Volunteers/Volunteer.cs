@@ -38,9 +38,14 @@ public class Volunteer : Shared.Entity<VolunteerId>
     public VolunteerDetails Details { get; private set; }
     public List<Pet> Pets { get; private set; } = new();
 
-    public int GetAmountPetsThatHaveFoundHome() => Pets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
-    public int GetAmountPetsThatSearchHome() => Pets.Count(p => p.HelpStatus == HelpStatus.NeedHome);
-    public int GetAmountPetsOnTreatment() => Pets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
+    public int GetAmountPetsThatHaveFoundHome() => 
+        Pets.Count(p => p.HelpStatus == HelpStatus.FoundHome);
+
+    public int GetAmountPetsThatSearchHome() => 
+        Pets.Count(p => p.HelpStatus == HelpStatus.NeedHome);
+
+    public int GetAmountPetsOnTreatment() => 
+        Pets.Count(p => p.HelpStatus == HelpStatus.OnTreatment);
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
@@ -64,4 +69,16 @@ public class Volunteer : Shared.Entity<VolunteerId>
             volunteerDetails);
     }
 
+    public void UpdateMainInfo(
+        FullName fullName, 
+        Description description,
+        Decimal experience,
+        PhoneNumber phoneNumber)
+    {
+        FullName = fullName;
+        Description = description;
+        YearsOfExperience = experience;
+        PhoneNumber = phoneNumber;
+    }
+     
 }

@@ -7,11 +7,11 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Infrastructure.Repositories;
 
-public class VolunteersRepository : IVolunteersRepository
+public class VolunteerRepository : IVolunteerRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public VolunteersRepository(ApplicationDbContext dbContext)
+    public VolunteerRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -27,6 +27,7 @@ public class VolunteersRepository : IVolunteersRepository
     {
         var volunteer = await _dbContext.Volunteers
             .Include(x => x.Pets)
+             .ThenInclude(p => p.PetPhotoList)
             .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
 
         if (volunteer is null)
@@ -49,4 +50,12 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer;
     }
 
+    public async Task<Guid> Save(Volunteer volunteer, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Attach(volunteer);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return volunteer.Id.Value;
+    }
 }
