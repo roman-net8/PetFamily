@@ -5,8 +5,9 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Volunteers;
 
-public class Volunteer : Shared.Entity<VolunteerId>
+public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
 {
+    private bool _isDeleted = false;
     //For EF Сore
     private Volunteer(VolunteerId id) : base(id)
     {
@@ -80,5 +81,24 @@ public class Volunteer : Shared.Entity<VolunteerId>
         YearsOfExperience = experience;
         PhoneNumber = phoneNumber;
     }
-     
+
+    public void Delete()
+    {
+        _isDeleted = true;
+
+        foreach (var pet in Pets)
+        {
+            pet.Delete();
+        }
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
+
+        foreach (var pet in Pets)
+        {
+            pet.Restore();
+        }
+    }
 }

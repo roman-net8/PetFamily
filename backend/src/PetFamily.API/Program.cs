@@ -2,6 +2,7 @@ using PetFamily.API.Middlewares;
 using PetFamily.API.Validation;
 using PetFamily.Application.Volunteers;
 using PetFamily.Application.Volunteers.Create;
+using PetFamily.Application.Volunteers.Delete;
 using PetFamily.Application.Volunteers.UpdateMainInfo;
 using PetFamily.Application.Volunteers.UpdateRequisites;
 using PetFamily.Application.Volunteers.UpdateSocialNetworks;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<UpdateMainInfoHandler>();
 builder.Services.AddScoped<UpdateRequisitesHandler>();
 builder.Services.AddScoped<UpdateSocialNetworksHandler>();
 builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+builder.Services.AddScoped<DeleteVolunteerRequestHandler>(); //добавляем обработчик запроса на удаление волонтера
 
 builder.Services.AddSerilog();// Регистрация Serilog в DI-контейнере  (в систему dependency injection (DI) )
 

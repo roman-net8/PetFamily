@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetFamily.Domain.Models.Pets;
 using PetFamily.Domain.Models.Volunteers;
+using PetFamily.Infrastructure.Interceptors;
 
 namespace PetFamily.Infrastructure;
 
@@ -19,6 +20,8 @@ public class ApplicationDbContext(IConfiguration configuration) : DbContext
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+
+        optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

@@ -7,7 +7,7 @@ namespace PetFamily.Application.Volunteers.UpdateMainInfo;
 
 public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoRequest>
 {
-    public UpdateMainInfoRequestValidator()
+/*    public UpdateMainInfoRequestValidator()
     {
         RuleFor(r => r.VolunteerId)
             .NotEmpty()
@@ -21,5 +21,5 @@ public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoRe
         RuleFor(r => r.Dto.Experience).MustBeValueObject(YearsExperience.Create);
 
         RuleFor(r => r.Dto.Description).MustBeValueObject(Description.Create);
-    }
+    }*/
 }
