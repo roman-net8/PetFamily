@@ -4,8 +4,9 @@ using PetFamily.Domain.Shared.ValueObjects;
 
 namespace PetFamily.Domain.Models.Pets;
 
-public class Pet : Shared.Entity<PetId>
+public class Pet : Shared.Entity<PetId>, ISoftDeletable
 {
+    private bool _isDeleted = false;
     //For EF Сore
     private Pet(PetId id) : base(id)
     {
@@ -18,7 +19,7 @@ public class Pet : Shared.Entity<PetId>
         Color color,
         HealthInfo healthInfo,
         Address address,
-        PetAttributes petAttributes, 
+        PetAttributes petAttributes,
         bool isCastrated,
         bool isVaccinated,
         DateOnly dateOfBirth,
@@ -35,7 +36,7 @@ public class Pet : Shared.Entity<PetId>
         HealthInfo = healthInfo;
         PetRequisites = petRequisites;
         Address = address;
-        PetAttributes = petAttributes; 
+        PetAttributes = petAttributes;
         IsCastrated = isCastrated;
         IsVaccinated = isVaccinated;
         DateOfBirth = dateOfBirth;
@@ -51,14 +52,24 @@ public class Pet : Shared.Entity<PetId>
     public Color Color { get; private set; } = default!;
     public HealthInfo HealthInfo { get; private set; } = default!;
     public Address Address { get; private set; } = default!;
-    public PetAttributes PetAttributes { get; private set; } 
+    public PetAttributes PetAttributes { get; private set; }
     public bool IsCastrated { get; private set; }
     public bool IsVaccinated { get; private set; }
     public DateOnly DateOfBirth { get; private set; }
     public DateTime CreatedDate { get; private set; }
     public HelpStatus HelpStatus { get; private set; }
     public PetRequisites PetRequisites { get; private set; }
-    public PetPhotoList PetPhotoList { get; private set; } = default!; 
+    public PetPhotoList PetPhotoList { get; private set; } = default!;
     public SpeciesBreedType SpeciesBreed { get; private set; }
+
+    public void Delete()
+    {
+        _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        _isDeleted = false;
+    }
 
 }
