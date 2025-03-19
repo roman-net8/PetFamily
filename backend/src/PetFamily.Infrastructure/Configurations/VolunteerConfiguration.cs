@@ -118,7 +118,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
              .OnDelete(DeleteBehavior.Cascade);
 
         //указываем что при получение данных из табл volunteer добавлялась через InnerJoin данные из Pets
-        builder.Navigation(v => v.Pets).AutoInclude();
+      //  builder.Navigation(v => v.Pets).AutoInclude();
 
         builder.Property<bool>("_isDeleted")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

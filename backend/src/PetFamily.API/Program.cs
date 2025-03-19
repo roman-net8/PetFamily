@@ -1,13 +1,8 @@
+using PetFamily.API.Extensions;
 using PetFamily.API.Middlewares;
 using PetFamily.API.Validation;
-using PetFamily.Application.Volunteers;
-using PetFamily.Application.Volunteers.Create;
-using PetFamily.Application.Volunteers.Delete;
-using PetFamily.Application.Volunteers.UpdateMainInfo;
-using PetFamily.Application.Volunteers.UpdateRequisites;
-using PetFamily.Application.Volunteers.UpdateSocialNetworks;
+using PetFamily.Application;
 using PetFamily.Infrastructure;
-using PetFamily.Infrastructure.Repositories;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -33,15 +28,22 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<ApplicationDbContext>();
-builder.Services.AddScoped<CreateVolunteerHandler>();
-builder.Services.AddScoped<UpdateMainInfoHandler>();
-builder.Services.AddScoped<UpdateRequisitesHandler>();
-builder.Services.AddScoped<UpdateSocialNetworksHandler>();
-builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();
-builder.Services.AddScoped<DeleteVolunteerRequestHandler>(); //добавляем обработчик запроса на удаление волонтера
+//builder.Services.AddScoped<ApplicationDbContext>();//перенесен в PetFamily.Infrastructure\Inject.cs
+//builder.Services.AddScoped<IVolunteerRepository, VolunteerRepository>();//перенесен в PetFamily.Infrastructure\Inject.cs
+//builder.Services.AddScoped<DeleteVolunteerRequestHandler>(); //добавляем обработчик запроса на удаление волонтера,перенесен в PetFamily.Infrastructure\Inject.cs и PetFamily.Application\Inject.cs
+//builder.Services.AddScoped<CreateVolunteerHandler>(); //перенесен в PetFamily.Application\Inject.cs
+//builder.Services.AddScoped<UpdateMainInfoHandler>(); //перенесен в PetFamily.Application\Inject.cs
+//builder.Services.AddScoped<UpdateRequisitesHandler>(); //перенесен в PetFamily.Application\Inject.cs
+//builder.Services.AddScoped<UpdateSocialNetworksHandler>();//перенесен в PetFamily.Application\Inject.cs 
 
-builder.Services.AddSerilog();// Регистрация Serilog в DI-контейнере  (в систему dependency injection (DI) )
+// Регистрация Serilog в DI-контейнере  (в систему dependency injection (DI) )
+builder.Services.AddSerilog();
+
+//добавляем инфраструктуру PetFamily.Infrastructure\Inject.cs  (class Inject)
+builder.Services.AddInfrastructure(builder.Configuration);
+
+//добавляем приложение PetFamily.Application\Inject.cs (class Inject)
+builder.Services.AddApplication();
 
 //добовляем валидацию - FluentValidation (пакет SharpGrip.FluentValidation.AutoValidation.Mvc)
 builder.Services.AddFluentValidationAutoValidation(configuration =>
@@ -57,7 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    // await app.ApplyMigration();  //применяем миграции автоматически при запуске проекта
+    await app.ApplyMigration();  //применяем миграции автоматически при запуске проекта
 }
 
 app.UseSerilogRequestLogging();//добавляем библиотеки Serilog в конвейер middleware - Включение логирования HTTP-запросов

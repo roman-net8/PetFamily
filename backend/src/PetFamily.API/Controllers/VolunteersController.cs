@@ -82,16 +82,11 @@ public class VolunteersController : ApplicationController
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> Delete(
     [FromRoute] Guid id,
-    [FromServices] DeleteVolunteerRequestHandler handler,
-  //  [FromServices] DeleteVolunteerRequestValidator validator,
+    [FromServices] DeleteVolunteerRequestHandler handler, 
     CancellationToken cancellationToken = default)
     {
         var request = new DeleteVolunteerRequest(id);
-
-      //  var validationResult = await validator.ValidateAsync(request, cancellationToken); 
-    //    if (validationResult.IsValid == false)
-      //      return validationResult.ToValidationErrorResponse();
-
+         
         var result = await handler.Handle(request, cancellationToken);
 
         if (result.IsFailure)
@@ -99,4 +94,7 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
+
+
+
 }
